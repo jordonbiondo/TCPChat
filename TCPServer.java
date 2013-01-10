@@ -1,7 +1,5 @@
 /**
  * TCPServer.java
- * 
- * Author: 	Jason Tierney
  * Date: 	2012-01-09
  *
  * Demonstrates basic functionality of a TCP server.
