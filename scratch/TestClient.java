@@ -82,20 +82,64 @@ public class TestClient {
 	// new client
 	TestClient client = new TestClient("127.0.0.1", 8080);
 	client.setUsername();
-	while (client != null) { // infinite
+	Thread listen = new Thread(new ClientListener(client));
+	Thread speak = new Thread(new ClientSpeaker(client));
+	listen.start();
+	speak.start();
+	// while (client != null) { // infinite
+	//     try {
+	// 	// send and recieve
+	// 	client.send(client.userInput("Enter Message:"));
+	//     } catch (Exception e) {
+	// 	e.printStackTrace();
+	// 	System.exit(-1);
+	//     }
+	// }
+
+	// try{
+	//     client.socket.close();
+	// } catch(Exception e) {
+	    
+	// }
+    }
+}
+
+class ClientListener implements Runnable {
+    
+    TestClient client;
+    
+    public ClientListener(TestClient client) {
+	this.client = client;
+    }
+    
+    public void run() {
+	while (true) {
 	    try {
-		// send and recieve
-		client.send(client.userInput("Enter Message:"));
-		System.out.println(client.receive());
+		String message = client.receive();
+		System.out.println(message);
 	    } catch (Exception e) {
 		e.printStackTrace();
-		System.exit(-1);
 	    }
+	    
 	}
+    }
+}
 
-	try{
-	    client.socket.close();
-	} catch(Exception e) {
+class ClientSpeaker implements Runnable {
+    
+    TestClient client;
+    
+    public ClientSpeaker(TestClient client) {
+	this.client = client;
+    }
+    
+    public void run() {
+	while (true) {
+	    try {
+		client.send(client.userInput(""));
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
 	    
 	}
     }
