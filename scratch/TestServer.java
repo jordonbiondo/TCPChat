@@ -77,10 +77,18 @@ class TestHandler implements Runnable {
 	    output = new PrintWriter(client.getOutputStream(), true);
 	    while(true) {
 		// infinite, read message, send ok
-		System.out.println(input.readLine());
-		output.println("got your message");
+		String message = input.readLine();
+		if (message != null) {
+		    String[] pieces = message.split(":");
+		    System.out.println(pieces[0] + " sent: " + pieces[1]);
+		} else {
+		    break;
+		}
+		output.println("you sent: " + message);
 		
 	    }
+	    System.out.println("Client Disconnected");
+	    client.close();
 	} catch (Exception e ) {
 	    e.printStackTrace();
 	}

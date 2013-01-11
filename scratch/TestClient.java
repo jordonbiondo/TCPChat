@@ -16,6 +16,8 @@ public class TestClient {
     /** socket writer */
     PrintWriter output;
 
+    String username = "user";
+
 
     /**
      *  Constructor
@@ -42,12 +44,22 @@ public class TestClient {
 	return stdIn.nextLine();
     }
     
+    /**
+     *  setUsername
+     */
+    public void setUsername() {
+	String uname = userInput("Enter Username:");
+	if (uname.length() > 3) {
+	    username = uname;
+	} 
+
+    }
 
     /**
      *  Send
      */
     public void send(String message) throws IOException{
-	output.println(message);
+	output.println(username + ":"+message);
     }
 
 
@@ -69,7 +81,7 @@ public class TestClient {
 	
 	// new client
 	TestClient client = new TestClient("127.0.0.1", 8080);
-	
+	client.setUsername();
 	while (client != null) { // infinite
 	    try {
 		// send and recieve
