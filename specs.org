@@ -1,0 +1,29 @@
+* Client
+** message types
+*** initial connection
+    client information
+*** disconnection
+    closes client
+*** list request?
+    lists users if not gui implemented
+*** username
+    rename user
+*** say
+    goes to all
+*** whisper
+   goes to one user
+
+* Server
+** commands
+*** List
+*** kick
+*** stats
+*** say
+*** whisper
+*** rename user
+*** chat history
+*** listen
+*** set log file
+*** message queries
+*** block user
+*** message the server/ file a complaint
