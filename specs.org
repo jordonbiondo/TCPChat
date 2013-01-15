@@ -2,6 +2,7 @@
 ** message types
 *** initial connection
     client information
+***     
 *** disconnection
     closes client
 *** list request?
@@ -12,18 +13,23 @@
     goes to all
 *** whisper
    goes to one user
+*** block 
+    stop getting chat from specific user
+*** message the server / file complaint?
+*** message the admin    
 
 * Server
-** commands
-*** List
-*** kick
-*** stats
-*** say
-*** whisper
-*** rename user
-*** chat history
-*** listen
-*** set log file
-*** message queries
-*** block user
-*** message the server/ file a complaint
+** No gui
+*** List users 
+*** Kick user
+*** Show stats
+**** Number of users
+**** Uptime
+*** Say to all
+*** Whisper
+*** Rename a user
+*** Show chat history
+*** Show chat in real time
+*** Set log files
+*** Querie logs
+
