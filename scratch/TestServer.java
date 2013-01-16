@@ -24,10 +24,11 @@ public class TestServer {
     public void listen() {
 	while(true) {
 	    try {
-	    Socket client = socket.accept();
-
-	    Thread t = new Thread(new TestHandler(socket, client));
-	    t.start();
+		//Socket client = socket.accept();
+		Client client = new Client(socket.accept());
+		
+		Thread t = new Thread(new TestHandler(socket, client));
+		t.start();
 	    } catch (Exception e) {
 		System.out.println("listen");
 	    }
@@ -57,34 +58,37 @@ class TestHandler implements Runnable {
     ServerSocket socket;
 
     /** Client Socket */
-    Socket client;
+    Client client;
 
 
     /**
      * Constructor
      */
-    public TestHandler(ServerSocket s, Socket client) {
+    public TestHandler(ServerSocket s, Client client) {
 	this.socket = s;
 	this.client = client;
     }
 
 
     public void run() {
-	BufferedReader input;
-	PrintWriter output;
+	//BufferedReader input;
+	//PrintWriter output;
 	try {
-	    input = new BufferedReader(new InputStreamReader(client.getInputStream()));	
-	    output = new PrintWriter(client.getOutputStream(), true);
+	    //	    input = new BufferedReader(new InputStreamReader(client.getInputStream()));	
+	    //	    output = new PrintWriter(client.getOutputStream(), true);
 	    while(true) {
 		// infinite, read message, send ok
-		String message = input.readLine();
+		//String message = input.readLine();
+		String message = client.receiveMessage();
 		if (message != null) {
 		    String[] pieces = message.split(":");
 		    System.out.println(pieces[0] + " sent: " + pieces[1]);
 		} else {
 		    break;
 		}
-		output.println("you sent: " + message);
+		
+		//client.sendMessage("you sent: " + message);
+		//output.println("you sent: " + message);
 		
 	    }
 	    System.out.println("Client Disconnected");
