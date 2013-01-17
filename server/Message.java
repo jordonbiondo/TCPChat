@@ -20,4 +20,7 @@ public class Message {
     public final String receiver;
     public final String text;
     public final ServerAction action;
+
+    public Message(UUID sender, String receiver, String text, ServerAction action) {
+    }
 }

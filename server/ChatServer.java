@@ -68,7 +68,7 @@ public class ChatServer {
 	    try {
 		Client newClient = new Client(socket.accept());
 				
-		Thread t = new Thread(new ClientThread(this, newClient));
+		Thread t = new Thread(new ClientMessageReceiver(this, newClient));
 		t.start();
 
 	    } catch (Exception e) {
@@ -95,66 +95,3 @@ public class ChatServer {
 }
 
 
-class ClientThread implements Runnable {
-
-    /** Server socket */
-
-    ChatServer server;
-
-    /** Client Socket */
-    Client client;
-
-
-    /**
-     * Constructor
-     */
-    public ClientThread(ChatServer server, Client client) {
-	this.server = server;
-	this.client = client;
-    }
-
-
-    public void run() {
-	try {
-	    String hello = client.receiveMessage();
-	    server.clients.put( UUID.fromString(hello.split(":")[0]), client);
-		while(true) {
-		    String message = client.receiveMessage();
-		    if (message != null) {
-			server.queueMessage(message);
-			server.notifySpeaker();
-		    } else {
-			break;
-		    }
-		}
-	    System.out.println("Client Disconnected");
-	    client.close();
-	    
-	} catch (Exception e ) {
-	    e.printStackTrace();
-	}
-    }
-}
-
-
-class ClientSpeaker implements Runnable {
-    
-    ChatServer server;
-
-
-    public ClientSpeaker(ChatServer server) {
-	this.server = server;
-    }
-
-
-    public void run() {
-	while(!server.messageQueue.isEmpty()) {
-		System.out.println("sending");
-		String message = server.messageQueue.poll();
-		HashMap<UUID, Client> clients = server.clients;
-		for (UUID id: clients.keySet()) {
-		    clients.get(id).sendMessage(message);
-		}
-	    }
-    }
-}
