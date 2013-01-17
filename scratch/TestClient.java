@@ -16,7 +16,7 @@ public class TestClient {
     /** socket writer */
     PrintWriter output;
 
-    String username = "user";
+    private UUID id;
 
 
     /**
@@ -28,6 +28,7 @@ public class TestClient {
 	    stdIn = new Scanner(System.in);
 	    input =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    output = new PrintWriter(socket.getOutputStream(), true);
+	    id = UUID.randomUUID();
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    System.exit(-1);
@@ -44,22 +45,12 @@ public class TestClient {
 	return stdIn.nextLine();
     }
     
-    /**
-     *  setUsername
-     */
-    public void setUsername() {
-	String uname = userInput("Enter Username:");
-	if (uname.length() > 3) {
-	    username = uname;
-	} 
-
-    }
 
     /**
      *  Send
      */
     public void send(String message) throws IOException{
-	output.println(username + ":"+message);
+	output.println(id.toString() + ":"+message);
     }
 
 
@@ -80,27 +71,13 @@ public class TestClient {
     public static void main(String[] args) {	
 	
 	// new client
-	TestClient client = new TestClient("127.0.0.1", 8080);
-	client.setUsername();
+	System.out.println("Enter server ip: ");
+	String ip = new Scanner(System.in).nextLine();
+	TestClient client = new TestClient(ip, 8080);
 	Thread listen = new Thread(new ClientListener(client));
 	Thread speak = new Thread(new ClientSpeaker(client));
 	listen.start();
 	speak.start();
-	// while (client != null) { // infinite
-	//     try {
-	// 	// send and recieve
-	// 	client.send(client.userInput("Enter Message:"));
-	//     } catch (Exception e) {
-	// 	e.printStackTrace();
-	// 	System.exit(-1);
-	//     }
-	// }
-
-	// try{
-	//     client.socket.close();
-	// } catch(Exception e) {
-	    
-	// }
     }
 }
 

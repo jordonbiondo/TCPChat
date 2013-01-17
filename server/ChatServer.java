@@ -43,10 +43,11 @@ public class ChatServer {
 	while(true) {
 	    try {
 		Client newClient = new Client(socket.accept());
+		
 		clients.add(newClient);
 		
 		Thread t = new Thread(new ClientThread(this, newClient));
-	    t.start();
+		t.start();
 
 	    } catch (Exception e) {
 		System.out.println("listen failed");
@@ -103,16 +104,11 @@ class ClientThread implements Runnable {
 		String message = client.receiveMessage();
 		if (message != null) {
 
-		    String[] pieces = message.split(":");
 		    server.queueMessage(message);
-
+		    
 		} else {
 		    break;
 		}
-		
-		//client.sendMessage("you sent: " + message);
-		//output.println("you sent: " + message);
-		
 	    }
 	    System.out.println("Client Disconnected");
 	    client.close();
