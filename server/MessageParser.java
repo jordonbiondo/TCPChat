@@ -7,19 +7,19 @@ public class MessageParser
 	 */
     public static Message parseMessage(String aMessage) 
 	{
-		String[] msgPieces = aMessage.split(':');
+		String[] msgPieces = aMessage.split(":");
 		
-		if(msgPieces.length() < 5)
+		if(msgPieces.length < 5)
 		{
 		    return null;
 		}
 		
 		Message lMessage = new Message();
-		lMessage.username = msgPieces[0];
+		lMessage.sender = msgPieces[0];
 		lMessage.receiver = msgPieces[1];
 		lMessage.action = msgPieces[2];
 
-		for(int i = 3; i < msgPieces.length(); i++)
+		for(int i = 3; i < msgPieces.length; i++)
 		{
 			lMessage.message += msgPieces[i];
 		}
