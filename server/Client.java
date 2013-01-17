@@ -10,10 +10,13 @@ public class Client {
     
     public PrintWriter receiver;
 
+    private UUID id;
+
     public Client(Socket socket) throws IOException {
 	this.socket = socket;
 	this.sender = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	this.receiver = new PrintWriter(socket.getOutputStream(), true);
+	id = UUID.randomUUID();
     }
 
 
