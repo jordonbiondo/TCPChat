@@ -16,9 +16,11 @@ class ClientSpeaker implements Runnable {
     public void run() {
 	while(!server.messageQueue.isEmpty()) {
 		String message = server.messageQueue.poll();
+		UUID messageID = UUID.fromString(message.split(":")[0]);
 		HashMap<UUID, Client> clients = server.clients;
 		for (UUID id: clients.keySet()) {
-		    clients.get(id).sendMessage(message);
+		    if (! id.equals(messageID))
+			clients.get(id).sendMessage(message);   
 		}
 	    }
     }

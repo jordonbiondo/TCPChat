@@ -29,6 +29,7 @@ public class TestClient {
 	    input =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    output = new PrintWriter(socket.getOutputStream(), true);
 	    id = UUID.randomUUID();
+	    send("hi");
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    System.exit(-1);
@@ -40,8 +41,10 @@ public class TestClient {
      *  User Input
      */
     public String userInput(String prompt) {
-	prompt.trim();
-	System.out.print(prompt + " ");
+	if (prompt != null) {
+	    prompt.trim();
+	    System.out.print(prompt + " ");
+	}
 	return stdIn.nextLine();
     }
     
@@ -93,7 +96,7 @@ class ClientListener implements Runnable {
 	while (true) {
 	    try {
 		String message = client.receive();
-		System.out.println(message);
+		System.out.println(">>"+message.split(":")[1]);
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
@@ -113,7 +116,7 @@ class ClientSpeaker implements Runnable {
     public void run() {
 	while (true) {
 	    try {
-		client.send(client.userInput(""));
+		client.send(client.userInput(null));
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
