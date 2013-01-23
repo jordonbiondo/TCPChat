@@ -34,14 +34,27 @@
 	but it is not seen by the user because the client would block the message.
 *** message the server / file complaint?
 *** message the admin    
-    /admin {username}
-
+    /admin
+	If there are multiple admins on the server, this message will be sent to all
+	admins. -- this is if we determine an admin to be a user or if we determine it
+	to simply be the server, then it would just send one message out.
 * Server
 Some overview:
 + All users/usernames/clients should be stored in an ArrayList/Collection
++ The below functionality is accessed by the client (using /[command]); however, the server
+  will interpret the results from the client and return the appropriate responses. Thus this
+  is more of a implementation rather than actual definition of the how the user will interact
+  with these features.
 ** No gui
 *** List users 
+    + All users are stored in an ArrayCollection
+	+ We can just iterate through the list of users and return a string response of all the
+	  connected users.
 *** Kick user
+    + User is removed from list of active/connected users.
+	+ Disconnect message is sent to the client to disconnect them from the server
+	+ Q: Do we want to ban the client so they cannot connect again? This would require
+	  a bit more implementation, such as storing a list of banned IPs/usernames.
 *** Show stats
 **** Number of users
 **** Uptime
