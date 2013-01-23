@@ -4,21 +4,41 @@
     client information
 ***     
 *** disconnection
+	/close || /disconnect
     closes client
 *** list request?
+    /list 
     lists users if not gui implemented
+	should we have parameters for this?
+	such as:
+	- List group members
+	- List all members
+	- List specific members
 *** username
+    /username [new username]
     rename user
+	Note the space in the parameter, we should support usernames with spaces
 *** say
+    /say [msg]
     goes to all
 *** whisper
-   goes to one user
+    /whisper [username] [msg]
+    goes to one user
 *** block 
+    /block [username]
     stop getting chat from specific user
+	Handled by the client? (Would be easier);
+	Simple ArrayList/Collection that holds "blocked users"
+	When a message goes through, the username is verified against the blocked
+	users and if the user is present the messsage is "received by the client,
+	but it is not seen by the user because the client would block the message.
 *** message the server / file complaint?
 *** message the admin    
+    /admin {username}
 
 * Server
+Some overview:
++ All users/usernames/clients should be stored in an ArrayList/Collection
 ** No gui
 *** List users 
 *** Kick user
