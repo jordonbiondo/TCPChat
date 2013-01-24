@@ -1,3 +1,5 @@
+package shared;
+
 public enum ServerAction {
-    block, nameChange, groupJoin, none;
+    block, nameChange, groupJoin, list, none;
 }
