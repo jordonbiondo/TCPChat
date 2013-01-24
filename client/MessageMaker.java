@@ -30,8 +30,8 @@ public class MessageMaker {
     	return makeMessage(from, "", ServerAction.changeName, messageNum, text);
     }
 
-    public static String textMessage(UUID from, String to, UUID messageNum, String text) {
-    	return makeMessage(from, to, "", messageNum, text);
+    public static String textMessage(UUID from, UUID messageNum, String text) {
+    	return makeMessage(from, "All", ServerAction.say, messageNum, text);
     }
 
     public static String listReq(UUID from, UUID messageNum) {

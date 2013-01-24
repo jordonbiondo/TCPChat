@@ -53,7 +53,31 @@ public class ChatClient {
      *  Send
      */
     public void send(String message) throws IOException{
-	output.println(id.toString() + ":"+message);
+	output.println(message);
+    }
+
+    public void requestList() {
+    	send(MessageMaker.listReq(id, UUID.randomUUID()));
+    }
+
+    public void sendText(String text) {
+    	send(MessageMaker.textMessage(id, UUID.randomUUID(), text));
+    }
+
+    public void nameChange(String text) {
+    	send(MessageMaker.changeName(id, UUID.randomUUID(), text));
+    }
+
+    public void joinGroup(String text) {
+    	send(MessageMaker.groupJoin(id, UUID.randomUUID()));
+    }
+
+    public void whisper(String text, String to) {
+    	send(MessageMaker.whisper(id, to, UUID.randomUUID(), text));
+    }
+
+    public void block(String text) {
+    	send(MessageMaker.blockMessage(id, UUID.randomUUID(), text);
     }
 
 
