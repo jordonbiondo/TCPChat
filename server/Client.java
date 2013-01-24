@@ -12,6 +12,8 @@ public class Client {
 
     public UUID id;
 
+    public String username;
+
     public Client(Socket socket) throws IOException {
 	this.socket = socket;
 	this.sender = new BufferedReader(new InputStreamReader(socket.getInputStream()));

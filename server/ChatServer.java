@@ -25,6 +25,18 @@ public class ChatServer {
 
 
     /**
+     * Thread that listens for new connections
+     */
+    private Thread connectionThread;
+
+    /**
+     * Server shell thread
+     */
+    private Thread commandThread;
+    
+
+
+    /**
      * Queue of messages
      */
     public ConcurrentLinkedQueue<String> messageQueue;
@@ -37,6 +49,8 @@ public class ChatServer {
 	clients = new HashMap<UUID, Client>();
 	messageQueue = new ConcurrentLinkedQueue<String>();
 	speakThread = new Thread(new ClientSpeaker(this));
+	connectionThread = new Thread(new ConnectionListener(this));
+	commandThread = new Thread(new CommandShell(this));
     }
 
     
@@ -64,19 +78,8 @@ public class ChatServer {
      */
     public void listen() {
 	speakThread.start();
-	while(true) {
-	    try {
-		Client newClient = new Client(socket.accept());
-				
-		Thread t = new Thread(new ClientMessageReceiver(this, newClient));
-		t.start();
-
-	    } catch (Exception e) {
-		System.out.println("listen failed");
-		e.printStackTrace();
-	    }
-	}
-
+	connectionThread.start();
+	commandThread.start();
     }
     
     /**

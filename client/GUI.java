@@ -27,7 +27,7 @@ import javax.swing.SwingUtilities;
 
 public class GUI implements ActionListener {
     
-	private JFrame frame = new JFrame();
+    private JFrame frame = new JFrame();
     
     private JPanel panelSouth, panelCenter, centerBottom, panelWest;
     
@@ -35,88 +35,94 @@ public class GUI implements ActionListener {
     
     private JTabbedPane tabbedPane;
     
-	private JButton sendTextButton = new JButton("Send");
+    private JButton sendTextButton = new JButton("Send");
+    
+    private ArrayList<Object> onlineUsers = new ArrayList<Object>();
+    
+    private JList list;
+    
+    private JTextArea textArea;
+    private JScrollPane scrollPane, listScrollPane;
+    
+    private JTextField textField;
+    public void run() {
+	//	    	crappy method that doesn't really do anything real.  Won't be in the final
+	//	    	 part of this
+	initializeTestUsersOnline();
 	
-	private ArrayList<Object> onlineUsers = new ArrayList<Object>();
+	frame.setLayout(new BorderLayout());
+	panelSouth = new JPanel();
+	panelSouth.setLayout(new BorderLayout());
 	
-	private JList list;
+	//	       Failed attempt at tabbedpanes
+	//	       tabbedPane = new JTabbedPane();
+	//	       
+	//	       tabbedPane.addTab(onlineUsers.toArray()[0].toString(), textArea);
 	
-	private JTextArea textArea;
-	private JScrollPane scrollPane, listScrollPane;
+	//Setting up actual chat area
+	textArea = new JTextArea(" ", 5, 20);
+	textArea.setLineWrap(true);
+	textArea.setEditable(false);
+	scrollPane = new JScrollPane(textArea);
+	scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	panelCenter = new JPanel();
+	panelCenter.add(scrollPane);
 	
-	private JTextField textField;
-	    public void run() {
-//	    	crappy method that doesn't really do anything real.  Won't be in the final
-//	    	 part of this
-	    	initializeTestUsersOnline();
-	    	
-	       frame.setLayout(new BorderLayout());
-	       panelSouth = new JPanel();
-	       panelSouth.setLayout(new BorderLayout());
-	       
-//	       Failed attempt at tabbedpanes
-//	       tabbedPane = new JTabbedPane();
-//	       
-//	       tabbedPane.addTab(onlineUsers.toArray()[0].toString(), textArea);
-	       
-	       //Setting up actual chat area
-           textArea = new JTextArea(" ", 5, 20);
-           textArea.setLineWrap(true);
-           textArea.setEditable(false);
-           scrollPane = new JScrollPane(textArea);
-           scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-           panelCenter = new JPanel();
-           panelCenter.add(scrollPane);
-           
-           //Holds the send and text box for typing the message.  For some reason
-           // it's being really obnoxious and putting the send button on the left.
-           centerBottom = new JPanel();
-           centerBottom.setLayout(new GridLayout(1,2));
-           textField = new JTextField(15);
-           centerBottom.add(textField);
-           centerBottom.add(sendTextButton);
-           panelCenter.add(centerBottom);
-           panelCenter.add(textField);
-           
-           //Just a crappy list I made up to use the list feature on the side
-           // will eventually need double click stuff.
-           list = new JList(onlineUsers.toArray());
-           list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-           list.setLayoutOrientation(JList.VERTICAL);
-           listScrollPane = new JScrollPane(list);
-           listScrollPane.setPreferredSize(new Dimension(75, 80));
-           panelWest = new JPanel();
-           panelWest.add(listScrollPane);
-           
-	       sendTextButton.addActionListener(this);
-	       
-	       frame.add(panelWest, BorderLayout.WEST);
-	       frame.add(panelSouth, BorderLayout.SOUTH);
-	       frame.add(panelCenter, BorderLayout.CENTER);
-	       frame.setTitle("Chat Client Plus");
-	       frame.setSize(350, 200);
-	       frame.setLocationRelativeTo(null);
-	       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	       frame.setVisible(true);
-	       frame.setResizable(false);
-	    }
-	    
-	    private void initializeTestUsersOnline() {
-			onlineUsers.add("bob");
-			onlineUsers.add("jim");
-			onlineUsers.add("derp");
-			onlineUsers.add("derp");
-			onlineUsers.add("derp");
-			onlineUsers.add("derp");
-			onlineUsers.add("derp");
-			onlineUsers.add("derp");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == sendTextButton && !textField.getText().isEmpty()){
-            	textArea.append(textField.getText() + "\n");
-            	textField.setText("");
-            	textArea.setCaretPosition(textArea.getDocument().getLength());
-            }
-	    }
+	//Holds the send and text box for typing the message.  For some reason
+	// it's being really obnoxious and putting the send button on the left.
+	centerBottom = new JPanel();
+	centerBottom.setLayout(new GridLayout(1,2));
+	textField = new JTextField(15);
+	centerBottom.add(textField);
+	centerBottom.add(sendTextButton);
+	panelCenter.add(centerBottom);
+	panelCenter.add(textField);
+	
+	//Just a crappy list I made up to use the list feature on the side
+	// will eventually need double click stuff.
+	list = new JList(onlineUsers.toArray());
+	list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	list.setLayoutOrientation(JList.VERTICAL);
+	listScrollPane = new JScrollPane(list);
+	listScrollPane.setPreferredSize(new Dimension(75, 80));
+	panelWest = new JPanel();
+	panelWest.add(listScrollPane);
+	
+	sendTextButton.addActionListener(this);
+	
+	frame.add(panelWest, BorderLayout.WEST);
+	frame.add(panelSouth, BorderLayout.SOUTH);
+	frame.add(panelCenter, BorderLayout.CENTER);
+	frame.setTitle("Chat Client Plus");
+	frame.setSize(350, 200);
+	frame.setLocationRelativeTo(null);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setVisible(true);
+	frame.setResizable(false);
+    }
+    
+    private void initializeTestUsersOnline() {
+	onlineUsers.add("bob");
+	onlineUsers.add("jim");
+	onlineUsers.add("derp");
+	onlineUsers.add("derp");
+	onlineUsers.add("derp");
+	onlineUsers.add("derp");
+	onlineUsers.add("derp");
+	onlineUsers.add("derp");
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+	if(e.getSource() == sendTextButton && !textField.getText().isEmpty()){
+	    textArea.append(textField.getText() + "\n");
+	    textField.setText("");
+	    textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
+    }
+
+    public static void main(String[] args) {
+	GUI gui = new GUI();
+	gui.run();
+	
+    }
+}

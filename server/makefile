@@ -12,7 +12,7 @@ JC = javac
 	MessageParser.java
 
 
-ChatServer.class : ChatServer.java Client.java ClientSpeaker.java MessageParser.java Message.java
+ChatServer.class : ChatServer.java Client.java ClientSpeaker.java MessageParser.java Message.java CommandShell.java ConnectionListener.java
 
 #default: classes
 
