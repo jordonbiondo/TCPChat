@@ -17,7 +17,7 @@ public class MessageMaker {
     	return makeMessage(from, "", ServerAction.block, messageNum, text);
     }
 
-    public static String whisper(UUID from, UUID to, UUID messageNum, String text)
+    public static String whisper(UUID from, String to, UUID messageNum, String text)
     {
     	return makeMessage(from, to, "", messageNum, text);
     }
@@ -32,5 +32,9 @@ public class MessageMaker {
 
     public static String textMessage(UUID from, String to, UUID messageNum, String text) {
     	return makeMessage(from, to, "", messageNum, text);
+    }
+
+    public static String listReq(UUID from, UUID messageNum) {
+        return makeMessage(from, "", ServerAction.list, messageNum, "");
     }
 }
