@@ -25,6 +25,7 @@ class ClientMessageReceiver implements Runnable {
     public void run() {
 	try {
 	    String hello = client.receiveMessage();
+	    System.out.println("hello: "+hello);
 	    UUID newID = UUID.fromString(hello.split(":")[0]);
 	    client.id = newID;
 	    server.clients.put(client.id, client);

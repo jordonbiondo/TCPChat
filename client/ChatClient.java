@@ -29,7 +29,7 @@ public class ChatClient {
 	    input =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    output = new PrintWriter(socket.getOutputStream(), true);
 	    id = UUID.randomUUID();
-	    send("hi");
+	    send(id.toString()+ ":hi");
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    System.exit(-1);
@@ -53,7 +53,11 @@ public class ChatClient {
      *  Send
      */
     public void send(String message) throws IOException{
-	output.println(id.toString() + ":"+message);
+	output.println(message);
+    }
+
+    public void send(ClientMessage message) throws IOException {
+	send(message.toString());
     }
 
 
@@ -66,7 +70,9 @@ public class ChatClient {
 
     }
 
-
+    public UUID getID() {
+	return id;
+    }
 
     /**
      *  Main
@@ -114,9 +120,25 @@ class ClientSpeaker implements Runnable {
     }
     
     public void run() {
+
 	while (true) {
 	    try {
-		client.send(client.userInput(null));
+		
+		String input = client.userInput(null);
+		ClientMessage message;
+		
+		if (input.startsWith("/list")) {
+		    message = MessageMaker.listMessage(client.getID(),
+						       UUID.randomUUID());
+		    client.send(message);
+		    
+		} else {
+		    message = MessageMaker.sayMessage(client.getID(),
+						      UUID.randomUUID(),
+						      input);
+		    client.send(message);
+		}
+		
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
