@@ -114,6 +114,7 @@ class ClientListener implements Runnable {
 	while (true) {
 	    try {
 		String rawMessage = client.receive();
+		if (rawMessage == null) break;
 		//System.out.println("raw: "+ rawMessage);
 		ClientMessage message = ClientMessage.fromString(rawMessage);
 		System.out.println(message.text);
@@ -122,8 +123,9 @@ class ClientListener implements Runnable {
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
-	    
-	}
+	} 
+	System.out.println("Disconnected...");
+	System.exit(0);
     }
 }
 

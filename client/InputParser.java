@@ -47,7 +47,7 @@ public class InputParser {
 	}
 	String text = "";
 	for (int i = 2; i < parts.length; i++) {
-	    text += parts[i];
+	    text += parts[i]+" ";
 	}
 	return MessageMaker.whisperMessage(client.getID(), parts[1], UUID.randomUUID(),
 					   text);

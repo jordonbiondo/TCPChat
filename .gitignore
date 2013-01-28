@@ -4,3 +4,5 @@
 *.ep
 
 *.java~
+
+*.java#
