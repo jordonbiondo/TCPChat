@@ -63,6 +63,26 @@ class CommandShell implements Runnable {
 		    return false;
 		}
 	    });
+		
+	commands.put("/exit", new ServerCommand() {
+	    public boolean run(ChatServer server){
+		    String user = stdIn.next();
+			HashMap<UUID, Client> clients = server.clients;
+			try{
+				for(Client c : clients.values()){		
+						c.close();
+						server.clients.remove(c.id);
+					}
+					
+				System.exit(0);
+			}
+			catch(Exception e){
+				    System.out.println("Weird things are ahappenin'");
+			}
+			
+			return false;
+		}
+		});
     }
 
     
