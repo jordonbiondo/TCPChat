@@ -18,9 +18,6 @@ public class ClientMessage {
 
     public String text;
 
-    public ClientMessage() {
-
-    }
     /*
      * Constructor
      */
@@ -55,10 +52,7 @@ public class ClientMessage {
 	String[] parts = message.split(":");
 	
 	if (parts.length < 5) {
-	    if (parts[0].toLowerCase().trim() == "server") {
-		return new ServerMessage(ServerAction.valueOf(parts[1]),
-					 parts[2]);
-	    }
+	    return null;
 	}
 
 	String text = "";
@@ -68,8 +62,8 @@ public class ClientMessage {
 	return new ClientMessage(UUID.fromString(parts[0]), parts[1],
 				 ServerAction.valueOf(parts[2]),
 				 UUID.fromString(parts[3]),
-				 text);
-				 
+				 text
+				 );
 	
     }
 
