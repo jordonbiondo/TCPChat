@@ -46,19 +46,15 @@ class ClientSpeaker implements Runnable {
      * Send list
      */
     public void sendClientList(ClientMessage message) {
-	//System.out.println("sending list");
-	//System.out.println(message);
-	String clientList = "Users> ";
+	String clientList = "Users:.";
 	HashMap<UUID, Client> clients = server.clients;
 	for (UUID id : clients.keySet()) {
-	    clientList += clients.get(id).username + ".";
+	    clientList += "  "+clients.get(id).username + ".";
 	}
 	message.text = clientList;
-
-	//System.out.println("sending: "+message.toStr);
 	clients.get(message.from).sendMessage(message);
-	
     }
+
     
     /*
      * Send a whisper
@@ -74,9 +70,12 @@ class ClientSpeaker implements Runnable {
 		return;
 	    }
 	}
-
     }
 
+
+    /*
+     * Say to all
+     */
     public void sendText(ClientMessage message) {
 	HashMap<UUID, Client> clients = server.clients;
 	message.text = "\t\t" + clients.get(message.from).username +"> "+message.text;

@@ -30,7 +30,9 @@ public class ChatClient {
     public ChatClient(final String host, final int port, String username) {
 	try {
 	    socket = new Socket(host, port);
+	    
 	    stdIn = new Scanner(System.in);
+
 	    input =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    output = new PrintWriter(socket.getOutputStream(), true);
 	    id = UUID.randomUUID();
@@ -85,16 +87,40 @@ public class ChatClient {
     public static void main(String[] args) {	
 	
 	// new client
-	System.out.println("Enter server ip: ");
+	
 	Scanner scanner = new Scanner(System.in);
+	
+	System.out.println("Enter server ip: ");
 	String ip = scanner.nextLine();
-	System.out.println("Enter a username: ");
-	String username = scanner.nextLine();
+
+		
+	String username = null;
+	while(!nameIsValid(username)) {
+	    System.out.println("Enter a username: ");
+	    username = scanner.nextLine();
+	    if (!nameIsValid(username)) 
+		System.out.println("Invalid name, alphanumeric values only");
+	}
+	
+	
 	ChatClient client = new ChatClient(ip, 8080, username);
+	
 	Thread listen = new Thread(new ClientListener(client));
 	Thread speak = new Thread(new ClientSpeaker(client));
 	listen.start();
 	speak.start();
+    }
+
+    
+    /**
+     * valid username
+     */
+    public static boolean nameIsValid(String name) {
+	if (name == null) return false;
+	for (Character c : name.toCharArray()) {
+	    if (! (Character.isDigit(c) || Character.isLetter(c))) return false;
+	}
+	return true;
     }
 }
 
@@ -117,20 +143,14 @@ class ClientListener implements Runnable {
 		if (rawMessage == null) break;
 
 		ClientMessage message = ClientMessage.fromString(rawMessage);
-		if (message.action == ServerAction.list) {
-		    System.out.println("Users: ");
-		    String[] names = message.text.split(".");
-		    for (int i = 0; i < names.length; i++) {
-			System.out.println(names[i]);
-		    }
-
+		if (message instanceof ServerMessage) {
+		    System.out.println("MESSAGE FROM SERVER> "+message.text);
 		} else {
+		    if (message.action == ServerAction.list) {
+			message.text = message.text.replace(".", "\n");
+		    } 
 		    System.out.println(message.text);
 		}
-
-		
-		
-
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
