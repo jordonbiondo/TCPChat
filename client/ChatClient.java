@@ -119,7 +119,7 @@ class ClientListener implements Runnable {
 		ClientMessage message = ClientMessage.fromString(rawMessage);
 		if (message.action == ServerAction.list) {
 		    System.out.println("Users: ");
-		    String names = message.text.split(".");
+		    String[] names = message.text.split(".");
 		    for (int i = 0; i < names.length; i++) {
 			System.out.println(names[i]);
 		    }
