@@ -64,14 +64,15 @@ class ClientSpeaker implements Runnable {
      * Send a whisper
      */
     public void sendWhisper(ClientMessage message) {
-	System.out.println("whisper----\n"+message.toString());
 	HashMap<UUID, Client> clients = server.clients;
 	for (Client c : clients.values()) {
-	    System.out.println("looking at: "+c.username);
-	    if (c.username == message.to)
-		System.out.println(c.username+ "-"+message.to);
+	    System.out.println(c.username+" - "+message.to);
+	    if (c.username.trim().equals(message.to.trim())) {
+		System.out.println("here");
+		message.text = clients.get(message.from).username +" whispers> "+message.text;
 		c.sendMessage(message);
 		return;
+	    }
 	}
 
     }
