@@ -1,7 +1,12 @@
+package server;
+
+
 import java.util.*;
 import java.util.concurrent.*;
 import java.io.*;
 import java.net.*;
+
+import shared.*;
 
 public class ChatServer {
     
@@ -39,7 +44,7 @@ public class ChatServer {
     /**
      * Queue of messages
      */
-    public ConcurrentLinkedQueue<String> messageQueue;
+    public ConcurrentLinkedQueue<ClientMessage> messageQueue;
     
     /**
      *  Chat Server Construtor
@@ -47,7 +52,7 @@ public class ChatServer {
     public ChatServer(int port) throws IOException {
 	socket = new ServerSocket(port);
 	clients = new HashMap<UUID, Client>();
-	messageQueue = new ConcurrentLinkedQueue<String>();
+	messageQueue = new ConcurrentLinkedQueue<ClientMessage>();
 	speakThread = new Thread(new ClientSpeaker(this));
 	connectionThread = new Thread(new ConnectionListener(this));
 	commandThread = new Thread(new CommandShell(this));
@@ -57,7 +62,7 @@ public class ChatServer {
     /**
      * Add a message to the queue for sending
      */
-    public boolean queueMessage(String message) {
+    public boolean queueMessage(ClientMessage message) {
 	return messageQueue.add(message);
     }
 

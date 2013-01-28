@@ -54,7 +54,15 @@ public class ClientMessage {
 	if (parts.length < 5) {
 	    return null;
 	}
-	return null;
+	String text = "";
+	for (int i = 4; i < parts.length; i++) {
+	    text += parts[i];
+	}
+	return new ClientMessage(UUID.fromString(parts[0]), parts[1],
+				 ServerAction.valueOf(parts[2]),
+				 UUID.fromString(parts[3]),
+				 text
+				 );
 	
     }
 

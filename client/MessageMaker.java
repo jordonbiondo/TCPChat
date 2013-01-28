@@ -19,15 +19,16 @@ public class MessageMaker {
      * block user
      */
     public static ClientMessage blockMessage(UUID from, String to, UUID messageID) {
-	return makeMessage(from, to, ServerAction.block, messageID, "");
+	return makeMessage(from, to, ServerAction.block, messageID, "null");
     }
 
     /*
      * list Users
      */
     public static ClientMessage listMessage(UUID from, UUID messageID) {
-	return makeMessage(from, "", ServerAction.list, messageID, "");
+	return makeMessage(from, "null", ServerAction.list, messageID, "null");
     }
+
 
     /*
      * Say

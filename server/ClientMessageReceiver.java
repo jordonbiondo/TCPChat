@@ -1,7 +1,11 @@
+package server;
+
 import java.util.*;
 import java.util.concurrent.*;
 import java.io.*;
 import java.net.*;
+
+import shared.*;
 
 class ClientMessageReceiver implements Runnable {
 
@@ -25,12 +29,16 @@ class ClientMessageReceiver implements Runnable {
     public void run() {
 	try {
 	    String hello = client.receiveMessage();
-	    System.out.println("hello: "+hello);
-	    UUID newID = UUID.fromString(hello.split(":")[0]);
+	    System.out.println(hello);
+	    String[] parts = hello.split(":");
+	    UUID newID = UUID.fromString(parts[0]);
+	    String username = parts[1];
 	    client.id = newID;
+	    client.username = username;
 	    server.clients.put(client.id, client);
 		while(true) {
-		    String message = client.receiveMessage();
+		    String msg = client.receiveMessage();
+		    ClientMessage message = ClientMessage.fromString(msg);
 		    if (message != null) {
 			server.queueMessage(message);
 			server.notifySpeaker();

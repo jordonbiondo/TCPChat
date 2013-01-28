@@ -1,6 +1,9 @@
+package server;
+
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import shared.*;
 
 public class Client {
     
@@ -38,8 +41,8 @@ public class Client {
     }
 
 
-    public void sendMessage(String message) {
-	receiver.println(message);
+    public void sendMessage(ClientMessage message) {
+	receiver.println(message.toString());
     }
 
 
