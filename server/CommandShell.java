@@ -49,9 +49,14 @@ class CommandShell implements Runnable {
 		    HashMap<UUID, Client> clients = server.clients;
 		    for (Client c : clients.values()) {
 			if (c.username.equals(user)) {
-			    //
-			    // kick the user
-			    //
+			    try{
+					c.close();
+					server.clients.remove(c.id);
+					System.out.println("We just removed that bastard " + c.username);
+				}
+				catch (Exception e){
+				    System.out.println("Weird things are ahappenin'");
+				}
 			    return true;
 			}
 		    }
