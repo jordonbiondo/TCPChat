@@ -1,3 +1,6 @@
+package server;
+
+
 import java.util.*;
 import java.util.concurrent.*;
 import java.io.*;
@@ -27,21 +30,39 @@ class CommandShell implements Runnable {
     }
 
     public void initCommands() {
-	commands.put("list", new ServerCommand() {
+	
+	//list command
+	commands.put("/list", new ServerCommand() {
 		public boolean run(ChatServer server) {
 		    HashMap<UUID, Client> clients = server.clients;
 		    if (clients == null) return false;
 		    for (UUID id : clients.keySet()) {
-			System.out.println(id.toString());
+			System.out.println(clients.get(id).username+": "+id.toString());
 		    }
 		    return true;
+		}
+	    });
+	
+	commands.put("/kick", new ServerCommand() {
+		public boolean run(ChatServer server) {
+		    String user = stdIn.next();
+		    HashMap<UUID, Client> clients = server.clients;
+		    for (Client c : clients.values()) {
+			if (c.username.equals(user)) {
+			    //
+			    // kick the user
+			    //
+			    return true;
+			}
+		    }
+		    return false;
 		}
 	    });
     }
 
     
     /** 
-     * Run dat shit you dirty mother fucker
+     * Run 
      */
     public void run() {
 	try {
