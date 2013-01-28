@@ -125,19 +125,13 @@ class ClientSpeaker implements Runnable {
 	    try {
 		
 		String input = client.userInput(null);
-		ClientMessage message;
-		
-		if (input.startsWith("/list")) {
-		    message = MessageMaker.listMessage(client.getID(),
-						       UUID.randomUUID());
+		ClientMessage message = InputParser.parse(client, input);
+		if (message != null) {
 		    client.send(message);
-		    
 		} else {
-		    message = MessageMaker.sayMessage(client.getID(),
-						      UUID.randomUUID(),
-						      input);
-		    client.send(message);
+		    System.out.println("Invalid message syntax you dumbass");
 		}
+		
 		
 	    } catch (Exception e) {
 		e.printStackTrace();
