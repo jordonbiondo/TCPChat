@@ -50,41 +50,41 @@ class CommandShell implements Runnable {
 		    for (Client c : clients.values()) {
 			if (c.username.equals(user)) {
 			    try{
-					c.close();
-					server.clients.remove(c.id);
-					System.out.println("We just removed that bastard " + c.username);
-				}
-				catch (Exception e){
-				    System.out.println("Weird things are ahappenin'");
-				}
+				c.close();
+				server.clients.remove(c.id);
+				System.out.println("We just removed that bastard " + c.username);
+			    }
+			    catch (Exception e){
+				System.out.println("Weird things are ahappenin'");
+			    }
 			    return true;
 			}
 		    }
 		    return false;
 		}
 	    });
-		
+	
 	commands.put("/exit", new ServerCommand() {
-	    public boolean run(ChatServer server){
+		public boolean run(ChatServer server){
 		    String user = stdIn.next();
-			HashMap<UUID, Client> clients = server.clients;
-			try{
-				for(Client c : clients.values()){		
-						c.close();
-						server.clients.remove(c.id);
-					}
-					
-				System.exit(0);
-			}
-			catch(Exception e){
-				    System.out.println("Weird things are ahappenin'");
+		    HashMap<UUID, Client> clients = server.clients;
+		    try{
+			for(Client c : clients.values()){		
+			    c.close();
+			    server.clients.remove(c.id);
 			}
 			
-			return false;
+			System.exit(0);
+		    }
+		    catch(Exception e){
+			System.out.println("Weird things are ahappenin'");
+		    }
+		    
+		    return false;
 		}
-		});
+	    });
     }
-
+    
     
     /** 
      * Run 
@@ -104,15 +104,15 @@ class CommandShell implements Runnable {
 	    e.printStackTrace();
 	}
     }
-
-
+    
+    
     
     /**
      * Command Interface
      */
     private interface ServerCommand {
 	public boolean run(ChatServer server);
-
+	
     }
 }
- 
+

@@ -24,8 +24,8 @@ class ClientMessageReceiver implements Runnable {
 	this.server = server;
 	this.client = client;
     }
-
-
+    
+    
     public void run() {
 	try {
 	    String hello = client.receiveMessage();
@@ -36,19 +36,22 @@ class ClientMessageReceiver implements Runnable {
 	    client.id = newID;
 	    client.username = username;
 	    server.clients.put(client.id, client);
-		while(true) {
-		    String msg = "";
-			
-			msg = client.receiveMessage();
-		    
-		    if (msg != null) {
-			ClientMessage message = ClientMessage.fromString(msg);
-			server.queueMessage(message);
-			server.notifySpeaker();
-		    } else {
-			break;
-		    }
+	    while(true) {
+		if (client.socket.isClosed()) {
+		    break;
 		}
+		String msg = "";
+		
+		msg = client.receiveMessage();
+		
+		if (msg != null) {
+		    ClientMessage message = ClientMessage.fromString(msg);
+		    server.queueMessage(message);
+		    server.notifySpeaker();
+		} else {
+		    break;
+		}
+	    }
 	    System.out.println("Client Disconnected");
 	    client.close();
 	    server.clients.remove(client.id);
