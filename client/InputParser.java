@@ -24,9 +24,12 @@ public class InputParser {
 	if (message.startsWith(LIST)) return parseListMessage(client, message);
 	else if (message.startsWith(EXIT)) return parseExitMessage(client, message);
 	else if (message.startsWith(WHISPER)) return parseWhipserMessage(client, message);
-	else return MessageMaker.sayMessage(client.getID(),
+	
+	else {
+	    return MessageMaker.sayMessage(client.getID(),
 					    UUID.randomUUID(),
 					    message);
+	}
     }
 
     private static ClientMessage parseListMessage(ChatClient client, String message) {

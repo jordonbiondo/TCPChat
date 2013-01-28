@@ -54,6 +54,7 @@ public class ClientMessage {
 	if (parts.length < 5) {
 	    return null;
 	}
+
 	String text = "";
 	for (int i = 4; i < parts.length; i++) {
 	    text += parts[i];

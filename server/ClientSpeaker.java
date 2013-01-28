@@ -31,11 +31,11 @@ class ClientSpeaker implements Runnable {
 
 	    switch(action) {
 		
-	    case list:     sendClientList(message);
+	    case list:     sendClientList(message); break;
 		
-	    case whisper:  sendWhisper(message);
+	    case whisper:  sendWhisper(message); break;
 		
-	    case say:      sendText(message);
+	    case say:      sendText(message); break;
 		
 	    }
 	}
@@ -46,13 +46,16 @@ class ClientSpeaker implements Runnable {
      * Send list
      */
     public void sendClientList(ClientMessage message) {
-	String clientList = "";
+	//System.out.println("sending list");
+	//System.out.println(message);
+	String clientList = "Users> ";
 	HashMap<UUID, Client> clients = server.clients;
 	for (UUID id : clients.keySet()) {
-	    if (! id.equals(message.from))
-		clientList += clients.get(id).username + "\n";
+	    clientList += clients.get(id).username + "...";
 	}
 	message.text = clientList;
+
+	//System.out.println("sending: "+message.toStr);
 	clients.get(message.from).sendMessage(message);
 	
     }
@@ -61,11 +64,16 @@ class ClientSpeaker implements Runnable {
      * Send a whisper
      */
     public void sendWhisper(ClientMessage message) {
+	System.out.println("whisper----\n"+message.toString());
 	HashMap<UUID, Client> clients = server.clients;
-	Client receiver = clients.get(message.to);
-	if (receiver != null) {
-	    receiver.sendMessage(message);
+	for (Client c : clients.values()) {
+	    System.out.println("looking at: "+c.username);
+	    if (c.username == message.to)
+		System.out.println(c.username+ "-"+message.to);
+		c.sendMessage(message);
+		return;
 	}
+
     }
 
     public void sendText(ClientMessage message) {

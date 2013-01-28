@@ -114,8 +114,11 @@ class ClientListener implements Runnable {
 	while (true) {
 	    try {
 		String rawMessage = client.receive();
+		//System.out.println("raw: "+ rawMessage);
 		ClientMessage message = ClientMessage.fromString(rawMessage);
 		System.out.println(message.text);
+		
+		//System.out.println(message.text);
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
