@@ -1,3 +1,6 @@
+package client;
+
+import shared.*;
 import java.util.*;
 import java.io.*;
 
