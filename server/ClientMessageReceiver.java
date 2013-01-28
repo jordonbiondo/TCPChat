@@ -39,12 +39,7 @@ class ClientMessageReceiver implements Runnable {
 		while(true) {
 		    String msg = "";
 			
-			try{
-				msg = client.receiveMessage();
-			}
-			catch(Exception e){
-				System.out.println("");
-			}
+			msg = client.receiveMessage();
 		    
 		    if (msg != null) {
 			ClientMessage message = ClientMessage.fromString(msg);

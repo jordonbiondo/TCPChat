@@ -63,9 +63,14 @@ public class ChatServer {
      * Add a message to the queue for sending
      */
     public boolean queueMessage(ClientMessage message) {
-	return messageQueue.add(message);
+		try{
+			return messageQueue.add(message);
+		}
+		catch(Exception e){
+	        System.out.println("");
+		}
+		return false;
     }
-
 
     /**
      * If the speaker thread is not running, start a new one
