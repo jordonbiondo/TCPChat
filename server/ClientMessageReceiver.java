@@ -38,8 +38,9 @@ class ClientMessageReceiver implements Runnable {
 	    server.clients.put(client.id, client);
 		while(true) {
 		    String msg = client.receiveMessage();
-		    ClientMessage message = ClientMessage.fromString(msg);
-		    if (message != null) {
+		    
+		    if (msg != null) {
+			ClientMessage message = ClientMessage.fromString(msg);
 			server.queueMessage(message);
 			server.notifySpeaker();
 		    } else {
@@ -48,6 +49,7 @@ class ClientMessageReceiver implements Runnable {
 		}
 	    System.out.println("Client Disconnected");
 	    client.close();
+	    server.clients.remove(client.id);
 	    
 	} catch (Exception e ) {
 	    e.printStackTrace();
