@@ -115,11 +115,20 @@ class ClientListener implements Runnable {
 	    try {
 		String rawMessage = client.receive();
 		if (rawMessage == null) break;
-		//System.out.println("raw: "+ rawMessage);
+
 		ClientMessage message = ClientMessage.fromString(rawMessage);
-		System.out.println(message.text);
+		if (message.action == ServerAction.list) {
+		    System.out.println("Users: ");
+		    for (String name : message.text.split(".")) {
+			System.out.println(name);
+		    }
+		} else {
+		    System.out.println(message.text);
+		}
+
 		
-		//System.out.println(message.text);
+		
+
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
@@ -151,7 +160,7 @@ class ClientSpeaker implements Runnable {
 		if (message != null) {
 		    client.send(message);
 		} else {
-		    System.out.println("Invalid message syntax you dumbass");
+		    System.out.println("Invalid input");
 		}
 		
 		

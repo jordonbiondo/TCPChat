@@ -51,7 +51,7 @@ class ClientSpeaker implements Runnable {
 	String clientList = "Users> ";
 	HashMap<UUID, Client> clients = server.clients;
 	for (UUID id : clients.keySet()) {
-	    clientList += clients.get(id).username + "...";
+	    clientList += clients.get(id).username + ".";
 	}
 	message.text = clientList;
 
