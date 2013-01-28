@@ -31,7 +31,10 @@ class CommandShell implements Runnable {
 
     public void initCommands() {
 	
-	//list command
+
+	/*
+	 * list
+	 */
 	commands.put("/list", new ServerCommand() {
 		public boolean run(ChatServer server) {
 		    HashMap<UUID, Client> clients = server.clients;
@@ -43,6 +46,11 @@ class CommandShell implements Runnable {
 		}
 	    });
 	
+
+	
+	/*
+	 * Kick
+	 */
 	commands.put("/kick", new ServerCommand() {
 		public boolean run(ChatServer server) {
 		    String user = stdIn.next();
@@ -64,23 +72,24 @@ class CommandShell implements Runnable {
 		}
 	    });
 	
+
+	
+	/*
+	 * Exit
+	 */
 	commands.put("/exit", new ServerCommand() {
 		public boolean run(ChatServer server){
-		    String user = stdIn.next();
+		    System.out.println("start exit-------\n");
 		    HashMap<UUID, Client> clients = server.clients;
 		    try{
 			for(Client c : clients.values()){		
 			    c.close();
-			    server.clients.remove(c.id);
 			}
-			
-			System.exit(0);
-		    }
-		    catch(Exception e){
+			System.exit(0);			
+		    } catch(Exception e){
 			System.out.println("Weird things are ahappenin'");
 		    }
-		    
-		    return false;
+		    return true;
 		}
 	    });
     }

@@ -9,7 +9,11 @@ import java.net.*;
 import shared.*;
 
 class ClientSpeaker implements Runnable {
+
     
+    /*
+     * The owner
+     */
     ChatServer server;
 
 
@@ -28,36 +32,28 @@ class ClientSpeaker implements Runnable {
 	while(!server.messageQueue.isEmpty()) {
 	    ClientMessage message = server.messageQueue.poll();
 	    ServerAction action = message.action;
-
 	    switch(action) {
-		
 	    case list:     sendClientList(message); break;
-		
 	    case whisper:  sendWhisper(message); break;
-		
 	    case say:      sendText(message); break;
-		
 	    }
 	}
     }
-
+    
     
     /*
      * Send list
      */
     public void sendClientList(ClientMessage message) {
-	//System.out.println("sending list");
-	//System.out.println(message);
-	String clientList = "Users> ";
+	String clientList = "Users>.";
 	HashMap<UUID, Client> clients = server.clients;
-	for (UUID id : clients.keySet()) {
-	    clientList += clients.get(id).username + ".";
-	}
-	message.text = clientList;
-
-	//System.out.println("sending: "+message.toStr);
-	clients.get(message.from).sendMessage(message);
 	
+	for (UUID id : clients.keySet()) {
+	    clientList += "  -"+clients.get(id).username + ".";
+	}
+	
+	message.text = clientList;
+	clients.get(message.from).sendMessage(message);
     }
     
     /*

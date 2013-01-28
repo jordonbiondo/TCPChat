@@ -55,12 +55,14 @@ class ClientMessageReceiver implements Runnable {
 		    break;
 		}
 	    }
-	    System.out.println("Client Disconnected");
+	    System.out.println(client.username+" Disconnected");
 	    client.close();
 	    server.clients.remove(client.id);
 	    
-	} catch (Exception e ) {
+	} catch (Exception e) {
+e.printStackTrace();
+        }
 
-	}
+
     }
 }
