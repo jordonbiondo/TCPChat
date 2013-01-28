@@ -78,7 +78,7 @@ class ClientSpeaker implements Runnable {
 
     public void sendText(ClientMessage message) {
 	HashMap<UUID, Client> clients = server.clients;
-	message.text = clients.get(message.from).username +"> "+message.text;
+	message.text = "\t\t" + clients.get(message.from).username +"> "+message.text;
 	for (UUID id : clients.keySet()) {
 	    if (! id.equals(message.from))
 		clients.get(id).sendMessage(message);
