@@ -30,11 +30,19 @@ class CommandShell implements Runnable {
     }
 
     public void initCommands() {
-	
+	HelpCommand help = new HelpCommand(server, this);
+	commands.put(help.title, help);
+	ExitCommand exit = new ExitCommand(server);
+	commands.put(exit.title, exit);
+	ListCommand list = new ListCommand(server);
+	commands.put(list.title, list);
+	KickCommand kick = new KickCommand(server);
+	commands.put(kick.title, kick);
 
 	/*
 	 * list
 	 */
+	/*
 	commands.put("/list", new ServerCommand() {
 		public boolean run(ChatServer server) {
 		    HashMap<UUID, Client> clients = server.clients;
@@ -45,12 +53,14 @@ class CommandShell implements Runnable {
 		    return true;
 		}
 	    });
-	
+	*/
+
 
 	
 	/*
 	 * Kick
 	 */
+	/*
 	commands.put("/kick", new ServerCommand() {
 		public boolean run(ChatServer server) {
 		    String user = stdIn.next();
@@ -60,7 +70,7 @@ class CommandShell implements Runnable {
 			    try{
 				c.close();
 				server.clients.remove(c.id);
-				System.out.println("We just removed that bastard " + c.username);
+				System.out.println(c.username+ " has been kicked");
 			    }
 			    catch (Exception e){
 				System.out.println("Weird things are ahappenin'");
@@ -77,6 +87,7 @@ class CommandShell implements Runnable {
 	/*
 	 * Exit
 	 */
+	/*
 	commands.put("/exit", new ServerCommand() {
 		public boolean run(ChatServer server){
 		    System.out.println("start exit-------\n");
@@ -92,6 +103,7 @@ class CommandShell implements Runnable {
 		    return true;
 		}
 	    });
+	*/
     }
     
     
@@ -104,9 +116,9 @@ class CommandShell implements Runnable {
 		String input = stdIn.next().toLowerCase().trim();
 		ServerCommand command = commands.get(input);
 		if (command != null) {
-		    command.run(server);
+		    command.run();
 		} else {
-		    System.out.println("\""+input+"\" is not a command");
+		    System.out.println("\""+input+"\" is not a command type /help for information");
 		}
 	    }
 	} catch (Exception e ) {
@@ -116,12 +128,5 @@ class CommandShell implements Runnable {
     
     
     
-    /**
-     * Command Interface
-     */
-    private interface ServerCommand {
-	public boolean run(ChatServer server);
-	
-    }
 }
 

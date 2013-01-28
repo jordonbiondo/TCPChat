@@ -29,10 +29,10 @@ class ClientMessageReceiver implements Runnable {
     public void run() {
 	try {
 	    String hello = client.receiveMessage();
-	    System.out.println(hello);
 	    String[] parts = hello.split(":");
 	    UUID newID = UUID.fromString(parts[0]);
 	    String username = parts[1];
+	    System.out.println(parts[1]+" has connected");
 	    client.id = newID;
 	    client.username = username;
 	    server.clients.put(client.id, client);
