@@ -1,6 +1,3 @@
-package client;
-
-import shared.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -20,21 +17,19 @@ public class ChatClient {
     PrintWriter output;
 
     private UUID id;
-    
-    public String username;
 
 
     /**
      *  Constructor
      */
-    public ChatClient(final String host, final int port, String username) {
+    public ChatClient(final String host, final int port) {
 	try {
 	    socket = new Socket(host, port);
 	    stdIn = new Scanner(System.in);
 	    input =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    output = new PrintWriter(socket.getOutputStream(), true);
 	    id = UUID.randomUUID();
-	    send(id.toString()+ ":"+username);
+	    send("hi");
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    System.exit(-1);
@@ -61,7 +56,6 @@ public class ChatClient {
 	output.println(message);
     }
 
-<<<<<<< HEAD
     public void requestList() {
     	send(MessageMaker.listReq(id, UUID.randomUUID()));
     }
@@ -84,10 +78,6 @@ public class ChatClient {
 
     public void block(String text) {
     	send(MessageMaker.blockMessage(id, UUID.randomUUID(), text);
-=======
-    public void send(ClientMessage message) throws IOException {
-	send(message.toString());
->>>>>>> CLI
     }
 
 
@@ -100,9 +90,7 @@ public class ChatClient {
 
     }
 
-    public UUID getID() {
-	return id;
-    }
+
 
     /**
      *  Main
@@ -111,11 +99,8 @@ public class ChatClient {
 	
 	// new client
 	System.out.println("Enter server ip: ");
-	Scanner scanner = new Scanner(System.in);
-	String ip = scanner.nextLine();
-	System.out.println("Enter a username: ");
-	String username = scanner.nextLine();
-	ChatClient client = new ChatClient(ip, 8080, username);
+	String ip = new Scanner(System.in).nextLine();
+	ChatClient client = new ChatClient(ip, 8080);
 	Thread listen = new Thread(new ClientListener(client));
 	Thread speak = new Thread(new ClientSpeaker(client));
 	listen.start();
@@ -123,10 +108,6 @@ public class ChatClient {
     }
 }
 
-
-/**
- * Client Listener
- */
 class ClientListener implements Runnable {
     
     ChatClient client;
@@ -138,26 +119,16 @@ class ClientListener implements Runnable {
     public void run() {
 	while (true) {
 	    try {
-		String rawMessage = client.receive();
-		if (rawMessage == null) break;
-		//System.out.println("raw: "+ rawMessage);
-		ClientMessage message = ClientMessage.fromString(rawMessage);
-		System.out.println(message.text);
-		
-		//System.out.println(message.text);
+		String message = client.receive();
+		System.out.println(">>"+message.split(":")[1]);
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
-	} 
-	System.out.println("Disconnected...");
-	System.exit(0);
+	    
+	}
     }
 }
 
-
-/**
- * Client Speaker 
- */
 class ClientSpeaker implements Runnable {
     
     ChatClient client;
@@ -167,19 +138,9 @@ class ClientSpeaker implements Runnable {
     }
     
     public void run() {
-
 	while (true) {
 	    try {
-		
-		String input = client.userInput(null);
-		ClientMessage message = InputParser.parse(client, input);
-		if (message != null) {
-		    client.send(message);
-		} else {
-		    System.out.println("Invalid message syntax you dumbass");
-		}
-		
-		
+		client.send(client.userInput(null));
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }

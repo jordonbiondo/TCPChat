@@ -1,5 +1,3 @@
-package client;
-
 import java.util.*;
 import java.io.*;
 import java.net.*;

@@ -1,11 +1,7 @@
-package server;
-
 import java.util.*;
 import java.util.concurrent.*;
 import java.io.*;
 import java.net.*;
-
-import shared.*;
 
 class ClientMessageReceiver implements Runnable {
 
@@ -29,18 +25,12 @@ class ClientMessageReceiver implements Runnable {
     public void run() {
 	try {
 	    String hello = client.receiveMessage();
-	    System.out.println(hello);
-	    String[] parts = hello.split(":");
-	    UUID newID = UUID.fromString(parts[0]);
-	    String username = parts[1];
+	    UUID newID = UUID.fromString(hello.split(":")[0]);
 	    client.id = newID;
-	    client.username = username;
 	    server.clients.put(client.id, client);
 		while(true) {
-		    String msg = client.receiveMessage();
-		    
-		    if (msg != null) {
-			ClientMessage message = ClientMessage.fromString(msg);
+		    String message = client.receiveMessage();
+		    if (message != null) {
 			server.queueMessage(message);
 			server.notifySpeaker();
 		    } else {
@@ -49,7 +39,6 @@ class ClientMessageReceiver implements Runnable {
 		}
 	    System.out.println("Client Disconnected");
 	    client.close();
-	    server.clients.remove(client.id);
 	    
 	} catch (Exception e ) {
 	    e.printStackTrace();
