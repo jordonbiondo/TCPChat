@@ -1,0 +1,13 @@
+import java.util.*;
+import java.io.*;
+
+public class InputParser {
+    
+    public static final String[] actions = {
+	"/list", "/whisper", "/quit" 
+    }
+    public static ClientMessage parse(String message) {
+	
+    }
+    
+]
