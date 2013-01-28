@@ -37,12 +37,15 @@ class ClientMessageReceiver implements Runnable {
 	    client.username = username;
 	    server.clients.put(client.id, client);
 	    while(true) {
-		if (client.socket.isClosed()) {
-		    break;
-		}
+		
 		String msg = "";
 		
-		msg = client.receiveMessage();
+		try {
+		    msg = client.receiveMessage();
+		} catch(SocketException se) {
+		    // if socket closed, end listen loop
+		    break;
+		}
 		
 		if (msg != null) {
 		    ClientMessage message = ClientMessage.fromString(msg);
@@ -57,7 +60,7 @@ class ClientMessageReceiver implements Runnable {
 	    server.clients.remove(client.id);
 	    
 	} catch (Exception e ) {
-	    e.printStackTrace();
+
 	}
     }
 }
