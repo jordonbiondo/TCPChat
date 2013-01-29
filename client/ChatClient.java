@@ -116,6 +116,8 @@ class ClientListener implements Runnable {
 		String rawMessage = client.receive();
 		if (rawMessage == null) break;
 
+
+
 		ClientMessage message = ClientMessage.fromString(rawMessage);
 		if (message.action == ServerAction.list) {
 		    message.text = message.text.replace(".", "\n");

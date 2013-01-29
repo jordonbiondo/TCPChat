@@ -99,6 +99,7 @@ public class ChatServer {
 	ChatServer server;
 	try {
 	    server = new ChatServer(8080);
+	    System.out.println("Welcome to Super Chat Server 9000\ntype /help for instructions");
 	    server.listen();
 	} catch (Exception e) {
 	    e.printStackTrace();

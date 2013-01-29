@@ -17,6 +17,7 @@ public class HelpCommand extends ServerCommand {
     }
 
     @Override public boolean run() {
+	System.out.println("\nAvailable Commands:\n----------------------\n");
 	for (ServerCommand command : shell.commands.values()) {
 	    System.out.println(command.title+":\n\t"+command.helpText);
 	}

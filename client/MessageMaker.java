@@ -15,12 +15,6 @@ public class MessageMaker {
 	return new ClientMessage(from, to, action, messageID, text);
     }
     
-    /*
-     * block user
-     */
-    public static ClientMessage blockMessage(UUID from, String to, UUID messageID) {
-	return makeMessage(from, to, ServerAction.block, messageID, "null");
-    }
 
     /*
      * list Users

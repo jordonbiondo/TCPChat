@@ -14,6 +14,7 @@ public class InputParser {
     public static final String EXIT = "/exit";
     
     public static final String WHISPER = "/whisper";
+
     
 
     /**
@@ -37,6 +38,8 @@ public class InputParser {
     }
 
     private static ClientMessage parseExitMessage(ChatClient client, String message) {
+	System.out.println("shutting down...");
+	System.exit(0);
 	return null;
     }
 
