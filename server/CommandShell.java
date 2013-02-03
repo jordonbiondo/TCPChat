@@ -1,3 +1,6 @@
+package server;
+
+
 import java.util.*;
 import java.util.concurrent.*;
 import java.io.*;
@@ -27,21 +30,20 @@ class CommandShell implements Runnable {
     }
 
     public void initCommands() {
-	commands.put("list", new ServerCommand() {
-		public boolean run(ChatServer server) {
-		    HashMap<UUID, Client> clients = server.clients;
-		    if (clients == null) return false;
-		    for (UUID id : clients.keySet()) {
-			System.out.println(id.toString());
-		    }
-		    return true;
-		}
-	    });
+	HelpCommand help = new HelpCommand(server, this);
+	commands.put(help.title, help);
+	ExitCommand exit = new ExitCommand(server);
+	commands.put(exit.title, exit);
+	ListCommand list = new ListCommand(server);
+	commands.put(list.title, list);
+	KickCommand kick = new KickCommand(server);
+	commands.put(kick.title, kick);
+	commands.put("/awp", kick);
     }
-
+    
     
     /** 
-     * Run dat shit you dirty mother fucker
+     * Run 
      */
     public void run() {
 	try {
@@ -49,24 +51,17 @@ class CommandShell implements Runnable {
 		String input = stdIn.next().toLowerCase().trim();
 		ServerCommand command = commands.get(input);
 		if (command != null) {
-		    command.run(server);
+		    command.run();
 		} else {
-		    System.out.println("\""+input+"\" is not a command");
+		    System.out.println("\""+input+"\" is not a command type /help for information");
 		}
 	    }
 	} catch (Exception e ) {
 	    e.printStackTrace();
 	}
     }
-
-
     
-    /**
-     * Command Interface
-     */
-    private interface ServerCommand {
-	public boolean run(ChatServer server);
-
-    }
+    
+    
 }
- 
+

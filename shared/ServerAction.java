@@ -1,5 +1,5 @@
 package shared;
 
 public enum ServerAction {
-    say, block, nameChange, groupJoin, list, none;
+    say, whisper, list, none;
 }
